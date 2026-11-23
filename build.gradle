@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'application'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 group = 'org.example'
@@ -23,6 +24,44 @@ dependencies {
 
 application {
     mainClass = 'org.example.TodoApp'
+}
+
+tasks.named('shadowJar') {
+    archiveBaseName = 'todo-app'
+    archiveClassifier = ''
+    mergeServiceFiles()
+}
+
+tasks.named('jar') {
+    enabled = false
+}
+
+tasks.named('startScripts') {
+    enabled = false
+}
+
+tasks.named('startShadowScripts') {
+    enabled = false
+}
+
+tasks.named('distTar') {
+    enabled = false
+}
+
+tasks.named('distZip') {
+    enabled = false
+}
+
+tasks.named('shadowDistTar') {
+    enabled = false
+}
+
+tasks.named('shadowDistZip') {
+    enabled = false
+}
+
+tasks.named('build') {
+    dependsOn tasks.named('shadowJar')
 }
 
 test {
